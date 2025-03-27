@@ -46,10 +46,10 @@ Homepage = "https://github.com/sarinstein-yan/EigsysClustering"
 Repository = "https://github.com/sarinstein-yan/EigsysClustering"
 
 [tool.hatch.version]
-path = "src/__init__.py"
+path = "src/eigsys/__init__.py"
 
 [tool.hatch.build.targets.sdist]
 exclude = ["assets"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src"]
+packages = ["src/eigsys"]
