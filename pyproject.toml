@@ -1,0 +1,55 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "eigsys"
+dynamic = ["version"]
+description = "Precise Identification of Topological Phase Transitions with Eigensystem-Based Clustering"
+authors = [
+    {name = "Xianquan (Sarinstein) Yan", email = "xianquanyan@gmail.com"},
+]
+maintainers  = [
+    {name = "Xianquan (Sarinstein) Yan", email = "xianquanyan@gmail.com"},
+]
+keywords = [
+    "topological phase transition",
+    "quantum phase",
+    "topological insulator",
+    "eigensystem vector",
+    "eigensystem state",
+    "eigensystem space",
+    "clustering",
+    "unsupervised learning",
+]
+readme = {"file" = "README.md", "content-type" = "text/markdown"}
+license = {file = "LICENSE"}
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = [
+    "numpy",
+    "sympy",
+    "scipy",
+    "pandas",
+    "scikit-learn"
+]
+
+[project.optional-dependencies]
+require = ["torch", "tensorflow"]  # packages to install manually
+
+[project.urls]
+Homepage = "https://github.com/sarinstein-yan/EigsysClustering"
+Repository = "https://github.com/sarinstein-yan/EigsysClustering"
+
+[tool.hatch.version]
+path = "src/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+exclude = ["assets"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
