@@ -12,8 +12,9 @@ from .hubbard_soc_fock import (
     generateBasis_soc
 )
 
-from .eigsys_analyzer import (
-    eigsys_vecs
+from .eigsys_analysis import (
+    eigsys_vecs, add_noise,
+    ClusteringEvaluator
 )
 
 from .diffusion_map import DiffusionMapTorch
@@ -38,7 +39,8 @@ __all__ = [
 "Hubbard_SOC_eigenSystem_batch_alphaOff",
 "generateBasis_soc",
 
-"eigsys_vecs",
+"eigsys_vecs", "add_noise",
+"ClusteringEvaluator",
 
 "DiffusionMapTorch",
 "DiffusionClustering",

@@ -35,11 +35,12 @@ dependencies = [
     "sympy",
     "scipy",
     "pandas",
-    "scikit-learn"
+    "scikit-learn",
+    "tqdm",
 ]
 
 [project.optional-dependencies]
-require = ["torch", "tensorflow"]  # packages to install manually
+require = ["torch", "tensorflow", "giotto-tda"]  # packages to install manually
 
 [project.urls]
 Homepage = "https://github.com/sarinstein-yan/EigsysClustering"
