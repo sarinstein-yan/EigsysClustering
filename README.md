@@ -193,7 +193,7 @@ results_df = evaluator.result_df
 ```
 
 The `methods` tuple specifies which clustering approaches to run:
-- `'gmm'`: Gaussian Mixture Model clustering (via `sklearn.mixture.GaussianMixture`).
+- `'gmm'`: Gaussian Mixture Model clustering.
 - `'kmeans'`: K-Means clustering.
 - `'spectral'`: Spectral clustering (Laplacian-based), using Nearest Neighbor kernel.
 - `'dmp'`: Diffusion Map Embedding + KMeans clustering (as per Rodriguez-Nieva et al. 2019, implemented internally via `DiffusionMapTorch` for embedding only and `DiffusionClustering` for whole pipeline).
