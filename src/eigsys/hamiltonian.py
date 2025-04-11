@@ -90,7 +90,7 @@ def expand_hz_as_hop_dict_1d(h_z, z):
                 poly_dict[key][i, j] += term_coeff
     return poly_dict
 
-def H_1D_batch(h_k, k, N, param_dict):
+def H_1D_batch(h_z, z, N, param_dict={}):
     """
     Constructs the 1D Hamiltonian matrices for both open (OBC) and periodic (PBC) boundary conditions 
     from a given Bloch Hamiltonian for a 1D lattice system.
@@ -118,10 +118,8 @@ def H_1D_batch(h_k, k, N, param_dict):
     # Check that all parameter arrays have the same shape
     batch_shapes = [np.shape(v) for v in param_dict.values()]
     assert all(shape == batch_shapes[0] for shape in batch_shapes), "Parameter values must have the same shape."
-    batch_shape = batch_shapes[0]
+    batch_shape = batch_shapes[0] if batch_shapes else ()
     # Define dummy symbols for the phase factor z and momentum k.
-    z = sp.Symbol('z')
-    h_z = hk2hz_1d(h_k, k, z)
     hoppings = expand_hz_as_hop_dict_1d(h_z, z)
 
     Hobc_arr = None
@@ -157,10 +155,6 @@ def H_1D_batch(h_k, k, N, param_dict):
             Hpbc_arr += Hpbc_temp
 
     return Hobc_arr, Hpbc_arr
-
-
-
-
 
 
 # --- for general 1D-3D Bloch Hamiltonian --- #
