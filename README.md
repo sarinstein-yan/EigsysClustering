@@ -33,11 +33,12 @@ Moreover, this method reveals an interesting physics insight that **distinct top
 
 ## Installation
 
-Some core computations of `EigsysClustering` use **TensorFlow** (for batched eigen-decompositions) and **PyTorch** (for a baseline method, diffusion map clustering), so both frameworks should be installed. One can either refer to the official installation instructions for [TensorFlow](https://www.tensorflow.org/install) and [PyTorch](https://pytorch.org/get-started/locally/) to set up the environment as per your machine's specifications and OS; or, preferably, create a new conda environment.
+Some core computations of `EigsysClustering` use **PyTorch** (for a baseline method, diffusion map clustering) and **TensorFlow** (optional, for faster batched eigen-decompositions) and, so both frameworks should be installed. One can either refer to the official installation instructions for [TensorFlow](https://www.tensorflow.org/install) and [PyTorch](https://pytorch.org/get-started/locally/) to set up the environment as per your machine's specifications and OS; or, preferably, create a new conda environment.
 
 **1. Create a conda environment (recommended):**
 ```bash
-$ conda create -n eigsys python numpy sympy pandas tensorflow pytorch -c conda-forge -c pytorch
+$ conda create -n eigsys python numpy sympy pandas pytorch -c conda-forge -c pytorch
+# Optional: `$ conda install tensorflow`
 $ conda activate eigsys
 ```
 *(Alternatively, ensure `tensorflow` and `torch` are installed in your environment.)*
@@ -139,15 +140,25 @@ y = np.where(mu_values < 2*1, 1, 0)
 
 ### Constructing eigensystem vectors
 
-Now, we diagonalize all Hamiltonians in one shot. `EigsysClustering` leverages TensorFlow's vectorized, high-performance eigen-solver and wraps in `es.eig_batched` to diagonalize all matrices efficiently (can be optionally accelerated using GPU if available). We then obtain the eigensystem vectors with `es.eigsys_vecs`:
+Now, we diagonalize all Hamiltonians in one shot. `EigsysClustering` prioritizes the use of TensorFlow's vectorized, high-performance eigen-solver and wraps in `es.eig_batch` to diagonalize a large batch of matrices more efficiently.
+
+`es.eig_batch` can be optionally accelerated on GPU by passing a device string in either `tensorflow` or `torch` format (assuming at least one of them can be imported, otherwise the device string will be ignored and fallback to `numpy`).
+
+We then obtain the eigensystem vectors with `es.eigsys_vecs`:
 
 ```python
 import tensorflow as tf, torch, os
 os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'  # (optional, for TensorFlow GPU memory optimization)
 
 # Diagonalization
-eig_vals, eig_vecs = es.eig_batched(H_pbc, device='/GPU:0', is_hermitian=True)
-# ^ Provided a GPU is available, the default `device` is `/CPU:0`.
+eig_vals, eig_vecs = es.eig_batch(
+    H_pbc, 
+    device='/GPU:0', 
+    # ^ Provided a GPU is available, the default `device` is `/CPU:0`.
+    is_hermitian=True, 
+    chop=False, 
+    # ^ If true, chop small values for numerical stability
+)
 
 # Construct "eigensystem vectors" for all samples
 X = es.eigsys_vecs(eig_vals, eig_vecs)

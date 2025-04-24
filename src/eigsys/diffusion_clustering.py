@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 from typing import Union
 from numpy.typing import ArrayLike
-from .diffusion_map import DiffusionMapTorch
+from eigsys.diffusion_map import DiffusionMapTorch
 
 class DiffusionClustering:
     """

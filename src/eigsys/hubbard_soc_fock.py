@@ -2,7 +2,6 @@ import numpy as np
 import math
 from itertools import combinations
 from scipy import sparse as sp
-import tensorflow as tf
 import multiprocessing as mp
 
 
@@ -484,11 +483,8 @@ def Hubbard_SOC_eigenSystem_batch_alphaOff(t_s, t_so, U, mz_vals, N, N_par):
     # Stack the Hamiltonian matrices into a 3D NumPy array with shape (num_mz, n, n)
     H_array = np.asarray(hamiltonians)
     
-    # Convert the array to a TensorFlow tensor.
-    H_batch = tf.convert_to_tensor(H_array, dtype=tf.float64)
-    
     # Perform the batched eigenvalue decomposition.
-    eigvals_batch, eigvecs_batch = tf.linalg.eigh(H_batch)
+    eigvals_batch, eigvecs_batch = np.linalg.eigh(H_array)
     
     # Convert the results back to NumPy arrays.
     eigvals_batch = eigvals_batch.numpy()
